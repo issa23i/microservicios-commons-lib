@@ -15,7 +15,7 @@ import com.nttdata.microservicios.commons.services.CommonService;
 
 public class CommonController<E, S extends CommonService<E>> {
 	@Autowired
-	private S service;
+	protected S service;
 	@GetMapping
 	public ResponseEntity<?> listar(){
 		return ResponseEntity.ok().body(service.findAll());

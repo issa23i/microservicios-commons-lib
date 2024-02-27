@@ -3,17 +3,19 @@ package com.nttdata.microservicios.commons.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
 
-public class CommonServiceImpl<E, R extends CrudRepository<E,Long>> implements CommonService<E> {
-	
+public class CommonServiceImpl<E, R extends JpaRepository<E,Long>> implements CommonService<E> {
+
 	@Autowired
 	protected R repository;
 
-	
+
 	@Override
 	@Transactional(readOnly=true)
 	public Iterable<E> findAll() {
@@ -34,6 +36,12 @@ public class CommonServiceImpl<E, R extends CrudRepository<E,Long>> implements C
 	@Override
 	public void deleteById(Long id) {
 		repository.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Page<E> findAll(Pageable pegeable) {
+		return repository.findAll(pegeable);
 	}
 
 }
